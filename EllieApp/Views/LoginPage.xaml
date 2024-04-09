@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+             x:Class="EllieApp.LoginPage"
+             Title="LoginPage">
+    <ContentPage.Background>
+        <LinearGradientBrush>
+            <GradientStop Color="{StaticResource Primary}"
+                      Offset="0.2" />
+            <GradientStop Color="{StaticResource Tertiary}"
+                      Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+    <Page.Behaviors>
+        <mct:StatusBarBehavior StatusBarColor="{StaticResource Primary}"/>
+    </Page.Behaviors>
+    <VerticalStackLayout>
+        <Label HeightRequest="100"></Label>
+        <Frame HeightRequest="170" 
+               WidthRequest="170" 
+               Padding="-30,-40,-30,-20" 
+               CornerRadius="90" 
+               BorderColor="White"
+               HasShadow="True">
+            <Frame.Shadow>
+                <Shadow
+                    Brush="Black"
+                    Offset="15,15"
+                    Radius="20"
+                    Opacity="0.5"/>
+            </Frame.Shadow>
+            <Frame.Background>
+                <LinearGradientBrush>
+                    <GradientStop Color="{StaticResource Primary}"
+                        Offset="0.1"/>
+                    <GradientStop Color="{StaticResource Secondary}"
+                        Offset="1.0"/>
+                </LinearGradientBrush>
+            </Frame.Background>
+            <Image Margin="0,60,0,30" Source="ellie_alternative.png"/>
+        </Frame>
+        <Label HeightRequest="50"/>
+        <Grid x:Name="inputFields" RowDefinitions="40,40,40,40,50" ColumnDefinitions="10,250,10" RowSpacing="20" HorizontalOptions="Center">
+            <!--<Frame
+                Grid.Row="1"
+                Grid.Column="1"
+                CornerRadius="45"
+                Padding="0"
+                BorderColor="Transparent"
+                HasShadow="True">
+                <Frame.Shadow>
+                    <Shadow
+                        Brush="Black"
+                        Offset="10,10"
+                        Radius="10"
+                        Opacity="0.3"/>
+                </Frame.Shadow>
+                <Entry x:Name="nameField" HorizontalTextAlignment="Center" Placeholder="Name"/>
+            </Frame>-->
+            <!--<Frame
+                Grid.Row="1"
+                Grid.Column="1"
+                CornerRadius="45"
+                Padding="0"
+                BorderColor="Transparent"
+                HasShadow="True">
+                <Frame.Shadow>
+                    <Shadow
+                        Brush="Black"
+                        Offset="10,10"
+                        Radius="10"
+                        Opacity="0.3"/>
+                </Frame.Shadow>
+                <Entry x:Name="passwordField" HorizontalTextAlignment="Center" Placeholder="Password"/>
+            </Frame>-->
+            <Frame
+                Grid.Row="0"
+                Grid.Column="1"
+                CornerRadius="45"
+                Padding="0"
+                BorderColor="Transparent"
+                HasShadow="True">
+                <Frame.Shadow>
+                    <Shadow
+                        Brush="Black"
+                        Offset="10,10"
+                        Radius="10"
+                        Opacity="0.3"/>
+                </Frame.Shadow>
+                <Picker x:Name="placePicker" Title="Select place" HorizontalTextAlignment="Center" TextColor="Black" TitleColor="Gray">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Svendborg</x:String>
+                            <x:String>Odense</x:String>
+                            <x:String>København</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </Frame>
+            <Frame
+                Grid.Row="1"
+                Grid.Column="1"
+                CornerRadius="45"
+                Padding="0"
+                BorderColor="Transparent"
+                HasShadow="True">
+                <Frame.Shadow>
+                    <Shadow
+                    Brush="Black"
+                    Offset="10,10"
+                    Radius="10"
+                    Opacity="0.3"/>
+                </Frame.Shadow>
+                <Entry x:Name="roomField" HorizontalTextAlignment="Center" Placeholder="Room Number"/>
+            </Frame>
+            <Frame
+                Grid.Row="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Padding="0"
+                CornerRadius="45"
+                BorderColor="Transparent"
+                HasShadow="True">
+                <Frame.Shadow>
+                    <Shadow
+                        Brush="Black"
+                        Offset="10,10"
+                        Radius="10"
+                        Opacity="0.3"/>
+                </Frame.Shadow>
+                <Button Text="Login" Clicked="Button_Clicked" TextColor="Black" BackgroundColor="Transparent"/>
+            </Frame>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>
