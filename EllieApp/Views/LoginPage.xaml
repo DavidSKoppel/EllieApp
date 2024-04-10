@@ -4,6 +4,7 @@
              xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
              x:Class="EllieApp.LoginPage"
              Title="LoginPage">
+    <!--BackgroundImageSource="skeweredellie.png"-->
     <ContentPage.Background>
         <LinearGradientBrush>
             <GradientStop Color="{StaticResource Primary}"
@@ -88,14 +89,18 @@
                         Radius="10"
                         Opacity="0.3"/>
                 </Frame.Shadow>
-                <Picker x:Name="placePicker" Title="Select place" HorizontalTextAlignment="Center" TextColor="Black" TitleColor="Gray">
-                    <Picker.ItemsSource>
+                <Picker x:Name="placePicker" 
+                        Title="Select place" 
+                        HorizontalTextAlignment="Center" 
+                        TextColor="Black" 
+                        TitleColor="Gray">
+                    <!--<Picker.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
                             <x:String>Svendborg</x:String>
                             <x:String>Odense</x:String>
                             <x:String>København</x:String>
                         </x:Array>
-                    </Picker.ItemsSource>
+                    </Picker.ItemsSource>-->
                 </Picker>
             </Frame>
             <Frame

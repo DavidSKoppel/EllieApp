@@ -59,6 +59,7 @@
 	<ItemGroup>
 	  <None Remove="Resources\Images\ellie.png" />
 	  <None Remove="Resources\Images\ellie_alternative.png" />
+	  <None Remove="Resources\Images\skeweredellie.png" />
 	</ItemGroup>
 
 	<ItemGroup>

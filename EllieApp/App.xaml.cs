@@ -5,8 +5,16 @@
         public App()
         {
             InitializeComponent();
-
-            MainPage = new LoginPage();
+            bool isLoggedIn = Preferences.Get("isLoggedIn", defaultValue: false);
+            if (isLoggedIn)
+            {
+                MainPage = new MainPage();
+            }
+            else
+            {
+                //Preferences.Set("isLoggedIn", true);
+                MainPage = new LoginPage();
+            }
         }
     }
 }
