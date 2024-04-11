@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
-             x:Class="EllieApp.MainPage"
+             x:Class="EllieApp.Views.MainPage"
              Shell.NavBarIsVisible="False">
     <ContentPage.Background>
         <LinearGradientBrush>
@@ -32,7 +32,7 @@
             <BoxView Grid.Row="1" Grid.ColumnSpan="2" HeightRequest="1" VerticalOptions="End"></BoxView>
         </Grid>
         <Label></Label>
-        <CollectionView x:Name="collectionView" ItemsLayout="VerticalGrid, 2">
+        <CollectionView x:Name="collectionView" ItemsLayout="VerticalGrid, 2" BindingContext="{Binding alarms}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid RowSpacing="10" ColumnSpacing="10">
@@ -56,11 +56,16 @@
                                     Opacity="0.3"/>
                             </Frame.Shadow>
                             <Grid RowDefinitions="*,auto,*" Margin="-6,-10,-6,-15">
+                                <Button
+                                    BackgroundColor="Transparent"
+                                    Grid.RowSpan="4"
+                                    TextColor="{StaticResource Black}"
+                                    Clicked="StartServiceButton_Clicked"/>
                                 <Label Grid.Row="0" Text="{Binding ToDo}"/>
                                 <Image
                                     Grid.Row="1"
                                     Source="ur.png"/>
-                                <Label Grid.Row="3" VerticalOptions="Start" Text="{Binding Time}"/>
+                                <Label Grid.Row="3" VerticalOptions="Start" Text="{Binding activatingTime}"/>
                                 <Label Grid.Row="3" FontSize="9" VerticalOptions="End" TextColor="{StaticResource Tertiary}">Mindre nedtælling</Label>
                             </Grid>
                         </Frame>
@@ -89,6 +94,11 @@
                         Opacity="0.3"/>
                 </Frame.Shadow>
                 <Grid RowDefinitions="*,auto,*" Margin="-6,-10,-6,-15">
+                    <Button
+                        BackgroundColor="Transparent"
+                        Grid.RowSpan="4"
+                        TextColor="{StaticResource Black}"
+                        Clicked="StartServiceButton_Clicked"/>
                     <Label Grid.Row="0">Ting der skal gøres</Label>
                     <Image
                         Grid.Row="1"
@@ -97,6 +107,11 @@
                     <Label Grid.Row="3" FontSize="9" VerticalOptions="End" TextColor="{StaticResource Tertiary}">Mindre nedtælling</Label>
                 </Grid>
             </Frame>
+            <!--<Button
+                Grid.Row="0" 
+                Grid.Column="1"
+                Text="Stop Foreground Service" 
+                Clicked="StopServiceButton_Clicked"/>-->
         </Grid>
     </VerticalStackLayout>
 </ContentPage>

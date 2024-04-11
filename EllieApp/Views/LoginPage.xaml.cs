@@ -1,7 +1,7 @@
 using EllieApp.Models;
 using System.Text.Json;
 
-namespace EllieApp;
+namespace EllieApp.Views;
 
 public partial class LoginPage : ContentPage
 {
@@ -29,9 +29,9 @@ public partial class LoginPage : ContentPage
 
     private async void Button_Clicked(object sender, EventArgs e)
     {
-        if (placePicker.SelectedItem != null && roomField.Text == "")
+        if (placePicker.SelectedItem != null && roomField.Text != "")
         {
-            var quickObject = (place: placePicker.SelectedItem, room: roomField.Text);
+            /*var quickObject = (place: placePicker.SelectedItem, room: roomField.Text);
             var jsonObject = JsonSerializer.Serialize(quickObject);
             HttpClient httpClient = new HttpClient();
             HttpResponseMessage response = await httpClient.PostAsync("https://deep-wealthy-roughy.ngrok-free.app/", new StringContent(jsonObject));
@@ -42,7 +42,7 @@ public partial class LoginPage : ContentPage
             Preferences.Set("room", user.Room);
             Preferences.Set("active", user.Active);
             Preferences.Set("points", user.Points);
-            Preferences.Set("contactPersonId", user.ContactPersonId);
+            Preferences.Set("contactPersonId", user.ContactPersonId);*/
             App.Current.MainPage = new MainPage();
         }
     }

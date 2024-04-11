@@ -1,6 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_SYSTEM_EXEMPTED" />
+	<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+	<application android:name="EllieApp.MainApplication" android:debuggable="true" android:enabled="true" android:allowBackup="true" android:icon="@mipmap/appicon" android:supportsRtl="true">
+		<receiver android:name=".BootReceiver" android:directBootAware="true" android:enabled="true" android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</receiver>
+		<service android:name="crc64ec36f32ef25fb4f6.NetworkForegroundService" android:exported="true" android:foregroundServiceType="dataSync" />
+		<service android:name="crc64ec36f32ef25fb4f6.MessageForegroundService" android:exported="true" android:foregroundServiceType="specialUse" />
+	</application>
+	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="34" />
 </manifest>

@@ -1,4 +1,6 @@
-﻿namespace EllieApp
+﻿using EllieApp.Views;
+
+namespace EllieApp
 {
     public partial class App : Application
     {
