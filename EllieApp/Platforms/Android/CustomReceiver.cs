@@ -8,7 +8,7 @@ namespace EllieApp.Platforms.Android
 {
     [BroadcastReceiver(Enabled = true, Exported = true, Permission = Manifest.Permission.ReceiveBootCompleted)]
     [IntentFilter(new[] { Intent.ActionBootCompleted }, Priority = (int)IntentFilterPriority.LowPriority, Categories = new[] { Intent.CategoryDefault })]
-    public class BootReceiver : BroadcastReceiver
+    public class CustomReceiver : BroadcastReceiver
     {
         public override void OnReceive(Context? context, Intent? intent)
         {
@@ -21,7 +21,7 @@ namespace EllieApp.Platforms.Android
 
                 ContextCompat.StartForegroundService(context,
                     serviceIntent);
-            }
+            } 
         }
     }
 }

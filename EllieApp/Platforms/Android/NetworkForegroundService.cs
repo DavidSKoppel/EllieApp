@@ -50,7 +50,7 @@ namespace EllieApp.Platforms.Android
 
             // You can stop the service from inside the service by calling StopSelf();
 
-            timer = new Timer(Timer_Elapsed, notification, 0, 60000);
+            timer = new Timer(Timer_Elapsed, notification, 0, 600000);
 
             return StartCommandResult.Sticky;
         }

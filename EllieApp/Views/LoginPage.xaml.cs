@@ -43,6 +43,7 @@ public partial class LoginPage : ContentPage
             Preferences.Set("active", user.Active);
             Preferences.Set("points", user.Points);
             Preferences.Set("contactPersonId", user.ContactPersonId);*/
+            Preferences.Set("isLoggedIn", true);
             App.Current.MainPage = new MainPage();
         }
     }

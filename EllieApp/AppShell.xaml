@@ -4,12 +4,22 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:EllieApp"
-    Shell.FlyoutBehavior="Disabled"
+    FlyoutBehavior="Disabled"
     Title="EllieApp">
-
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:Views.MainPage}"
-        Route="MainPage" />
-
+    <TabBar>
+        <Tab>
+            <ShellContent
+                Title="Home"
+                Icon="ellie.png"
+                ContentTemplate="{DataTemplate local:Views.MainPage}"
+                Route="MainPage" />
+        </Tab>
+        <Tab>
+            <ShellContent
+                Title="Login"
+                Icon="ellie_alternative.png"
+                ContentTemplate="{DataTemplate local:Views.LoginPage}"
+                Route="LoginPage" />
+        </Tab>
+    </TabBar>
 </Shell>

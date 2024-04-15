@@ -61,12 +61,13 @@
                                     Grid.RowSpan="4"
                                     TextColor="{StaticResource Black}"
                                     Clicked="StartServiceButton_Clicked"/>
-                                <Label Grid.Row="0" Text="{Binding ToDo}"/>
+                                <Label Grid.Row="0" Text="{Binding name}"/>
+                                <Label Grid.Row="1" FontSize="30" VerticalOptions="Start" Text="{Binding activatingTime, StringFormat='{0:HH:mm}'}"/>
                                 <Image
-                                    Grid.Row="1"
+                                    Grid.Row="2"
                                     Source="ur.png"/>
-                                <Label Grid.Row="3" VerticalOptions="Start" Text="{Binding activatingTime}"/>
-                                <Label Grid.Row="3" FontSize="9" VerticalOptions="End" TextColor="{StaticResource Tertiary}">Mindre nedtælling</Label>
+                                <Label Grid.Row="2" VerticalOptions="Center" Text="Everyday"/>
+                                <Label Grid.Row="3" FontSize="9" VerticalOptions="End" TextColor="{StaticResource Tertiary}" Text="Countdown"/>
                             </Grid>
                         </Frame>
                     </Grid>
@@ -98,7 +99,7 @@
                         BackgroundColor="Transparent"
                         Grid.RowSpan="4"
                         TextColor="{StaticResource Black}"
-                        Clicked="StartServiceButton_Clicked"/>
+                        Clicked="Button_Clicked"/>
                     <Label Grid.Row="0">Ting der skal gøres</Label>
                     <Image
                         Grid.Row="1"

@@ -10,7 +10,7 @@ namespace EllieApp
             bool isLoggedIn = Preferences.Get("isLoggedIn", defaultValue: false);
             if (isLoggedIn)
             {
-                MainPage = new MainPage();
+                MainPage = new AppShell();
             }
             else
             {

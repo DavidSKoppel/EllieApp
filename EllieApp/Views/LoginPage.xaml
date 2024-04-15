@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:mct="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
              x:Class="EllieApp.Views.LoginPage"
-             Title="LoginPage">
+             Title="LoginPage"
+             Shell.NavBarIsVisible="False">
     <!--BackgroundImageSource="skeweredellie.png"-->
     <ContentPage.Background>
         <LinearGradientBrush>
@@ -39,7 +40,7 @@
                         Offset="1.0"/>
                 </LinearGradientBrush>
             </Frame.Background>
-            <Image Margin="0,60,0,30" Source="ellie_alternative.png"/>
+                <Image Margin="0,60,0,30" Source="ellie_alternative.png"/>
         </Frame>
         <Label HeightRequest="50"/>
         <Grid x:Name="inputFields" RowDefinitions="40,40,40,40,50" ColumnDefinitions="10,250,10" RowSpacing="20" HorizontalOptions="Center">
@@ -89,7 +90,8 @@
                         Radius="10"
                         Opacity="0.3"/>
                 </Frame.Shadow>
-                <Picker x:Name="placePicker" 
+                <VerticalStackLayout>
+                    <Picker x:Name="placePicker" 
                         Title="Select place" 
                         HorizontalTextAlignment="Center" 
                         TextColor="Black" 
@@ -102,6 +104,7 @@
                         </x:Array>
                     </Picker.ItemsSource>-->
                 </Picker>
+                </VerticalStackLayout>
             </Frame>
             <Frame
                 Grid.Row="1"
@@ -117,9 +120,11 @@
                     Radius="10"
                     Opacity="0.3"/>
                 </Frame.Shadow>
-                <Entry x:Name="roomField" HorizontalTextAlignment="Center" Placeholder="Room Number"/>
-            </Frame>
-            <Frame
+                <VerticalStackLayout>
+                    <Entry x:Name="roomField" HorizontalTextAlignment="Center" Placeholder="Room Number"/>
+                </VerticalStackLayout>
+        </Frame>
+    <Frame
                 Grid.Row="3"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
@@ -134,7 +139,9 @@
                         Radius="10"
                         Opacity="0.3"/>
                 </Frame.Shadow>
-                <Button Text="Login" Clicked="Button_Clicked" TextColor="Black" BackgroundColor="Transparent"/>
+                <VerticalStackLayout>
+                    <Button Text="Login" Clicked="Button_Clicked" TextColor="Black" BackgroundColor="Transparent"/>
+                </VerticalStackLayout>
             </Frame>
         </Grid>
     </VerticalStackLayout>

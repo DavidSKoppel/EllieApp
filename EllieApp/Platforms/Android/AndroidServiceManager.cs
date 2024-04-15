@@ -15,15 +15,15 @@ namespace EllieApp.Platforms.Android
         public static void StartMyService()
         {
             if (MainActivity == null) return;
-            MainActivity.StartNetworkService();
-            //MainActivity.StartMessageService();
+            //MainActivity.StartNetworkService();
+            MainActivity.StartMessageService();
         }
 
         public static void StopMyService()
         {
             if (MainActivity == null) return;
-            MainActivity.StopNetworkService();
-            //MainActivity.StopMessageService();
+            //MainActivity.StopNetworkService();
+            MainActivity.StopMessageService();
             IsRunning = false;
         }
     }
