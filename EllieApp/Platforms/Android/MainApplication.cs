@@ -18,7 +18,7 @@ namespace EllieApp
         public override void OnCreate()
         {
             base.OnCreate();
-
+            /*
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
 #pragma warning disable CA1416
@@ -34,6 +34,7 @@ namespace EllieApp
                 }
 #pragma warning restore CA1416
             }
+            */
         }
     }
 }

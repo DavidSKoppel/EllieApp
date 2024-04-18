@@ -3,23 +3,18 @@
     x:Class="EllieApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:EllieApp.Views"
     xmlns:local="clr-namespace:EllieApp"
     FlyoutBehavior="Disabled"
-    Title="EllieApp">
+    Title="EllieApp"
+    Shell.TabBarTitleColor="{StaticResource Tertiary}"
+    Shell.TabBarForegroundColor="{StaticResource Tertiary}">
     <TabBar>
-        <Tab>
-            <ShellContent
-                Title="Home"
-                Icon="ellie.png"
-                ContentTemplate="{DataTemplate local:Views.MainPage}"
-                Route="MainPage" />
+        <Tab Title="Alarm" Icon="bell.png">
+            <views:MainPage/>
         </Tab>
-        <Tab>
-            <ShellContent
-                Title="Login"
-                Icon="ellie_alternative.png"
-                ContentTemplate="{DataTemplate local:Views.LoginPage}"
-                Route="LoginPage" />
+        <Tab Title="Shop" Icon="shoppingcart.png">
+            <views:PointShopPage/>
         </Tab>
     </TabBar>
 </Shell>

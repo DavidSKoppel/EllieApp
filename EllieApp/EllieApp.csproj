@@ -57,8 +57,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\bell.png" />
 	  <None Remove="Resources\Images\ellie.png" />
 	  <None Remove="Resources\Images\ellie_alternative.png" />
+	  <None Remove="Resources\Images\shoppingcart.png" />
 	  <None Remove="Resources\Images\skeweredellie.png" />
 	</ItemGroup>
 
@@ -71,6 +73,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Views\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\PointShopPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

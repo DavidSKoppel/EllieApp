@@ -6,8 +6,6 @@ using Android.OS;
 #endif
 using EllieApp.Models;
 using System.Collections.ObjectModel;
-using Microsoft.Maui.Controls;
-using System.Net.Http;
 using System.Text.Json;
 
 namespace EllieApp.Views;
@@ -24,44 +22,31 @@ public partial class MainPage : ContentPage
         collectionView.ItemsSource = alarms;
     }
 
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        HttpClient httpClient = new HttpClient();
-        HttpResponseMessage response = await httpClient.GetAsync("https://deep-wealthy-roughy.ngrok-free.app/alarm");
-        var json = await response.Content.ReadAsStringAsync();
-        var jsonAlarms = JsonSerializer.Deserialize<List<Alarm>>(json);
-        alarms.Clear();
-        foreach (var alarm in jsonAlarms)
-        {
-            alarms.Add(alarm);
-        }
-    }
-
-    private void MainPage_Loaded(object sender, EventArgs e)
+    private async void MainPage_Loaded(object sender, EventArgs e)
     {
 #if ANDROID
-        if(!AndroidServiceManager.IsRunning)
+        if (alarms.Count == 0)
         {
-            AndroidServiceManager.StartMyService();
+            HttpClient httpClient = new HttpClient();
+            HttpResponseMessage response =
+            await httpClient.GetAsync("https://deep-wealthy-roughy.ngrok-free.app/UserAlarmRelation/GetAlarmsByUserId/id?id=6");
+            var json = await response.Content.ReadAsStringAsync();
+            var jsonAlarms = JsonSerializer.Deserialize<List<Alarm>>(json);
+            alarms.Clear();
+            foreach (var alarm in jsonAlarms)
+            {
+                alarms.Add(alarm);
+                MainActivity.globalAlarms.Add(alarm);
+            }
+            StartAlarm(jsonAlarms);
         }
-        else
-        {
-        }
-#endif
-    }
-
-    private void StopServiceButton_Clicked(object sender, EventArgs e)
-    {
-#if ANDROID
-        AndroidServiceManager.StopMyService();
 #endif
     }
 
     private void StartServiceButton_Clicked(object sender, EventArgs e)
     {
 #if ANDROID
-        AndroidServiceManager.StartMyService();
+        AndroidServiceManager.StopMyMessageService(1);
 #endif
     }
 
@@ -83,14 +68,37 @@ public partial class MainPage : ContentPage
     private void Button_Clicked(object sender, EventArgs e)
     {
 #if ANDROID
-        var intent = new Android.Content.Intent(Android.App.Application.Context, typeof(CustomReceiver));
-        var pendingIntent = PendingIntent.GetBroadcast(Android.App.Application.Context, 0, intent, PendingIntentFlags.Immutable);
-        intent.SetAction("AlarmReceived");
-        intent.PutExtra("alarmIntent", pendingIntent);
-        var alarmManager = (AlarmManager)Android.App.Application.Context.GetSystemService(Context.AlarmService);
-        long interval = 60 * 10;//AlarmManager.IntervalDay;  60 *
-        alarmManager.Set(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + interval, pendingIntent);
-        // alarmManager.SetRepeating(AlarmType.RtcWakeup, startTime.Ticks, interval, pendingIntent);*/
+        AndroidServiceManager.StopMyMessageService(1);
+#endif
+    }
+
+    private void StartAlarm(List<Alarm> alarms)
+    {
+#if ANDROID
+        foreach (var alarm in alarms) { 
+            var intent = new Android.Content.Intent(Android.App.Application.Context, typeof(CustomReceiver));
+            intent.SetAction("AlarmReceived");
+            intent.PutExtra("Id", alarm.id);
+            var pendingIntent = PendingIntent.GetBroadcast(Android.App.Application.Context, alarm.id, intent, PendingIntentFlags.Immutable);
+            var alarmManager = (AlarmManager)Android.App.Application.Context.GetSystemService(Context.AlarmService);
+
+            Java.Util.Calendar calendar = new Java.Util.Calendar.Builder().SetCalendarType("iso8601").Build();
+            calendar.TimeInMillis = Java.Lang.JavaSystem.CurrentTimeMillis();
+
+            // Set the alarm to trigger at 12:30 PM
+            //calendar.Set(Java.Util.CalendarField.HourOfDay, alarm.activatingTime.Hour);
+            //calendar.Set(Java.Util.CalendarField.Minute, alarm.activatingTime.Minute);
+            //calendar.Set(Java.Util.CalendarField.Second, alarm.activatingTime.Second);
+            long interval = alarm.id * 10000;
+            if (calendar.TimeInMillis < Java.Lang.JavaSystem.CurrentTimeMillis())
+            {
+                // If the time has passed, add one day to the calendar to schedule the alarm for tomorrow
+                //calendar.Add(Java.Util.CalendarField.DayOfMonth, 1);
+            }
+
+            //alarmManager.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, calendar.TimeInMillis, pendingIntent);
+            alarmManager.Set(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + interval, pendingIntent);
+        }
 #endif
     }
 }

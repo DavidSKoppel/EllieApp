@@ -74,7 +74,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Grid RowSpacing="10" ColumnSpacing="10">
+        <!--<Grid RowSpacing="10" ColumnSpacing="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="150"/>
                 <RowDefinition Height="*"/>
@@ -108,11 +108,6 @@
                     <Label Grid.Row="3" FontSize="9" VerticalOptions="End" TextColor="{StaticResource Tertiary}">Mindre nedtælling</Label>
                 </Grid>
             </Frame>
-            <!--<Button
-                Grid.Row="0" 
-                Grid.Column="1"
-                Text="Stop Foreground Service" 
-                Clicked="StopServiceButton_Clicked"/>-->
-        </Grid>
+        </Grid>-->
     </VerticalStackLayout>
 </ContentPage>

@@ -12,7 +12,18 @@ namespace EllieApp.Platforms.Android
     {
         public override void OnReceive(Context? context, Intent? intent)
         {
-            if (intent.Action == Intent.ActionBootCompleted)
+            if (intent.Action == "AlarmReceived")
+            {
+                Toast.MakeText(context, "Alarm Firing", ToastLength.Short).Show();
+                var alarmId = intent.GetIntExtra("Id", -1);
+                AndroidServiceManager.StartMyMessageService(alarmId);
+                /*var serviceIntent = new Intent(context,
+                typeof(MessageForegroundService));
+
+                ContextCompat.StartForegroundService(context,
+                    serviceIntent);*/
+            }
+            else if (intent.Action == Intent.ActionBootCompleted)
             {
                 Toast.MakeText(context, "Boot completed, event received", ToastLength.Short).Show();
 
