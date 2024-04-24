@@ -20,31 +20,46 @@ public partial class LoginPage : ContentPage
     private async Task GetPlaces()
     {
         HttpClient httpClient = new HttpClient();
-        HttpResponseMessage response = await httpClient.GetAsync("https://deep-wealthy-roughy.ngrok-free.app/institute");
-        var jsonString = await response.Content.ReadAsStringAsync();
+        HttpResponseMessage response1 = await httpClient.GetAsync("https://totally-helpful-krill.ngrok-free.app/institute");
+        var jsonString = await response1.Content.ReadAsStringAsync();
         var institutes = JsonSerializer.Deserialize<List<Institute>>(jsonString);
+
+        
+
         placePicker.ItemsSource = institutes;
         placePicker.ItemDisplayBinding = new Binding("name");
     }
 
     private async void Button_Clicked(object sender, EventArgs e)
     {
-        if (placePicker.SelectedItem != null && roomField.Text != "")
+        if (placePicker.SelectedItem != null && roomPicker.SelectedItem != null)
         {
-            /*var quickObject = (place: placePicker.SelectedItem, room: roomField.Text);
-            var jsonObject = JsonSerializer.Serialize(quickObject);
+            var quickObject = (Institute)roomPicker.SelectedItem;
             HttpClient httpClient = new HttpClient();
-            HttpResponseMessage response = await httpClient.PostAsync("https://deep-wealthy-roughy.ngrok-free.app/", new StringContent(jsonObject));
+            HttpResponseMessage response = await httpClient.PostAsync("https://totally-helpful-krill.ngrok-free.app/User/AppUserLogin?roomId=" + quickObject.id, null);
             User user = JsonSerializer.Deserialize<User>(await response.Content.ReadAsStringAsync());
-            Preferences.Set("isLoggedIn", true);
+            Preferences.Set("id", user.Id);
             Preferences.Set("firstName", user.FirstName);
             Preferences.Set("lastName", user.LastName);
-            Preferences.Set("room", user.Room);
-            Preferences.Set("active", user.Active);
-            Preferences.Set("points", user.Points);
-            Preferences.Set("contactPersonId", user.ContactPersonId);*/
+            Preferences.Set("points", user.Points.ToString());
+            Preferences.Set("token", user.Token);
             Preferences.Set("isLoggedIn", true);
             App.Current.MainPage = new AppShell();
         }
+    }
+
+    private async void placePicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        HttpClient httpClient = new HttpClient();
+        var selected = (Institute)placePicker.SelectedItem;
+        HttpResponseMessage response2 = await httpClient.GetAsync("https://totally-helpful-krill.ngrok-free.app/Room/byinstid?id=" + selected.id);
+        var jsonString = await response2.Content.ReadAsStringAsync();
+        var rooms = JsonSerializer.Deserialize<List<Institute>>(jsonString);
+        rooms = rooms.OrderBy(o => o.name).ToList();
+
+        roomPicker.ItemsSource = rooms;
+        roomPicker.ItemDisplayBinding = new Binding("name");
+
+        roomPicker.IsEnabled = true;
     }
 }

@@ -91,22 +91,40 @@
                         Opacity="0.3"/>
                 </Frame.Shadow>
                 <VerticalStackLayout>
-                    <Picker x:Name="placePicker" 
-                        Title="Select place" 
-                        HorizontalTextAlignment="Center" 
-                        TextColor="Black" 
-                        TitleColor="Gray">
-                    <!--<Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Svendborg</x:String>
-                            <x:String>Odense</x:String>
-                            <x:String>København</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>-->
-                </Picker>
+                    <Picker x:Name="placePicker"
+                            Title="Select place" 
+                            HorizontalTextAlignment="Center" 
+                            TextColor="Black" 
+                            TitleColor="Gray"
+                            SelectedIndexChanged="placePicker_SelectedIndexChanged">
+                    </Picker>
                 </VerticalStackLayout>
             </Frame>
             <Frame
+                Grid.Row="1"
+                Grid.Column="1"
+                CornerRadius="45"
+                Padding="0"
+                BorderColor="Transparent"
+                HasShadow="True">
+                <Frame.Shadow>
+                    <Shadow
+                        Brush="Black"
+                        Offset="10,10"
+                        Radius="10"
+                        Opacity="0.3"/>
+                </Frame.Shadow>
+                <VerticalStackLayout>
+                    <Picker x:Name="roomPicker"
+                            Title="Select room" 
+                            HorizontalTextAlignment="Center" 
+                            TextColor="Black" 
+                            TitleColor="Gray"
+                            IsEnabled="False">
+                    </Picker>
+                </VerticalStackLayout>
+            </Frame>
+            <!--<Frame
                 Grid.Row="1"
                 Grid.Column="1"
                 CornerRadius="45"
@@ -123,8 +141,8 @@
                 <VerticalStackLayout>
                     <Entry x:Name="roomField" HorizontalTextAlignment="Center" Placeholder="Room Number"/>
                 </VerticalStackLayout>
-        </Frame>
-    <Frame
+        </Frame>-->
+            <Frame
                 Grid.Row="3"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"

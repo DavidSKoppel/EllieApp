@@ -15,13 +15,9 @@ namespace EllieApp.Models
         public string FirstName { get; set; }
         [JsonPropertyName("lastName")]
         public string LastName { get; set; }
-        [JsonPropertyName("room")]
-        public int Room { get; set; }
-        [JsonPropertyName("active")]
-        public bool Active { get; set; }
         [JsonPropertyName("points")]
         public int Points { get; set; }
-        [JsonPropertyName("ContactPersonId")]
-        public int ContactPersonId { get; set; }
+        [JsonPropertyName("token")]
+        public string Token { get; set; }
     }
 }

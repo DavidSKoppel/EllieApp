@@ -20,6 +20,8 @@ public partial class MainPage : ContentPage
         this.Loaded += MainPage_Loaded;
         Microsoft.Maui.Controls.Application.Current.UserAppTheme = AppTheme.Light;
         collectionView.ItemsSource = alarms;
+        firstNameLabel.Text = Preferences.Get("firstName", defaultValue: "null");
+        lastNameLabel.Text = Preferences.Get("lastName", defaultValue: "null");
     }
 
     private async void MainPage_Loaded(object sender, EventArgs e)
@@ -29,7 +31,7 @@ public partial class MainPage : ContentPage
         {
             HttpClient httpClient = new HttpClient();
             HttpResponseMessage response =
-            await httpClient.GetAsync("https://deep-wealthy-roughy.ngrok-free.app/UserAlarmRelation/GetAlarmsByUserId/id?id=6");
+            await httpClient.GetAsync("https://totally-helpful-krill.ngrok-free.app/UserAlarmRelation/GetAlarmsByUserId/id?id=" + Convert.ToInt32(Preferences.Get("id", defaultValue: 1)));
             var json = await response.Content.ReadAsStringAsync();
             var jsonAlarms = JsonSerializer.Deserialize<List<Alarm>>(json);
             alarms.Clear();
@@ -86,18 +88,18 @@ public partial class MainPage : ContentPage
             calendar.TimeInMillis = Java.Lang.JavaSystem.CurrentTimeMillis();
 
             // Set the alarm to trigger at 12:30 PM
-            //calendar.Set(Java.Util.CalendarField.HourOfDay, alarm.activatingTime.Hour);
-            //calendar.Set(Java.Util.CalendarField.Minute, alarm.activatingTime.Minute);
-            //calendar.Set(Java.Util.CalendarField.Second, alarm.activatingTime.Second);
-            long interval = alarm.id * 10000;
+            calendar.Set(Java.Util.CalendarField.HourOfDay, alarm.activatingTime.Hour);
+            calendar.Set(Java.Util.CalendarField.Minute, alarm.activatingTime.Minute);
+            calendar.Set(Java.Util.CalendarField.Second, alarm.activatingTime.Second);
+            //long interval = alarm.id * 10000;
             if (calendar.TimeInMillis < Java.Lang.JavaSystem.CurrentTimeMillis())
             {
                 // If the time has passed, add one day to the calendar to schedule the alarm for tomorrow
-                //calendar.Add(Java.Util.CalendarField.DayOfMonth, 1);
+                calendar.Add(Java.Util.CalendarField.DayOfMonth, 1);
             }
 
-            //alarmManager.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, calendar.TimeInMillis, pendingIntent);
-            alarmManager.Set(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + interval, pendingIntent);
+            alarmManager.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, calendar.TimeInMillis, pendingIntent);
+            //alarmManager.Set(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + interval, pendingIntent);
         }
 #endif
     }

@@ -13,62 +13,76 @@
         </LinearGradientBrush>
     </ContentPage.Background>
     <ScrollView>
-    <VerticalStackLayout Margin="25">
-        <Grid>
-            <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="100"/>
-                </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" FontSize="30" TextColor="{StaticResource Tertiary}">Your points</Label>
-            <Label x:Name="pointsLabel" Grid.Row="1" FontSize="30" TextColor="{StaticResource Tertiary}">500</Label>
-            <Button Margin="8" Grid.Column="1" Grid.RowSpan="2" BackgroundColor="{StaticResource Tertiary}" Text="Your Items" LineBreakMode="WordWrap"/>
-            <BoxView Grid.Row="1" Grid.ColumnSpan="2" HeightRequest="1" VerticalOptions="End"></BoxView>
-        </Grid>
-        <Label></Label>
-        <CollectionView x:Name="collectionView" ItemsLayout="VerticalGrid, 1" BindingContext="{Binding items}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid RowSpacing="10" ColumnSpacing="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="150"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="0"/>
-                        </Grid.ColumnDefinitions>
-                        <Label
-                        x:Name="MessageLabel"
-                        FontSize="20"/>
-                        <Frame HasShadow="True" CornerRadius="20" BorderColor="Transparent">
-                            <Frame.Shadow>
-                                <Shadow
-                                Brush="Black"
-                                Offset="10,10"
-                                Radius="10"
-                                Opacity="0.3"/>
-                            </Frame.Shadow>
-                            <Grid RowDefinitions="auto,*,*" ColumnDefinitions="*,*,auto" Margin="-6,-5,-6,-10">
-                                <Label Grid.Row="0" Grid.Column="1" VerticalOptions="End" FontAttributes="Bold" FontSize="Title" Text="{Binding Name}"/>
-                                <Button
-                                    Grid.Row="1"
-                                    Grid.Column="2"
-                                    TextColor="{StaticResource Black}" Text="+" FontSize="40" Padding="0"/>
-                                <Label Grid.Row="3" Grid.Column="1" FontSize="30" VerticalOptions="Start" Text="{Binding Price}"/>
-                                <Image
-                                    Grid.Row="0" Grid.RowSpan="10" Grid.Column="0"
-                                    Source="{Binding Picture}"/>
-                                <Label Grid.Row="3" Grid.Column="1" FontSize="13" VerticalOptions="End" TextColor="{StaticResource Tertiary}" Text="Points"/>
+        <VerticalStackLayout Margin="25">
+            <Grid>
+                <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="100"/>
+                    </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" FontSize="30" TextColor="{StaticResource Tertiary}">Your points</Label>
+                <Label x:Name="pointsLabel" Grid.Row="1" FontSize="30" TextColor="{StaticResource Tertiary}">500</Label>
+                <Button Margin="8" Grid.Column="1" Grid.RowSpan="2" BackgroundColor="{StaticResource Tertiary}" Text="Your Items" LineBreakMode="WordWrap" Clicked="Button_Clicked"/>
+                <BoxView Grid.Row="1" Grid.ColumnSpan="2" HeightRequest="1" VerticalOptions="End"></BoxView>
+            </Grid>
+            <Label></Label>
+                <CollectionView x:Name="collectionView" ItemsLayout="VerticalGrid, 1" BindingContext="{Binding items}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid RowSpacing="10" ColumnSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="150"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="0"/>
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    x:Name="MessageLabel"
+                                    FontSize="20"/>
+                                <Frame HasShadow="True" CornerRadius="20" BorderColor="Transparent">
+                                    <Frame.Shadow>
+                                        <Shadow
+                                    Brush="Black"
+                                    Offset="10,10"
+                                    Radius="10"
+                                    Opacity="0.3"/>
+                                    </Frame.Shadow>
+                                    <Grid RowDefinitions="auto,*,*" ColumnDefinitions="*,*,auto" Margin="-6,-5,-6,-10">
+                                    <Label Grid.Row="0" Grid.Column="1" VerticalOptions="End" FontAttributes="Bold" FontSize="Title" Text="{Binding Name}"/>
+                                        <Grid ColumnDefinitions="*,*,*" Grid.Row="1" Grid.Column="2">
+                                            <Button
+                                            Grid.Column="0"
+                                            TextColor="{StaticResource Black}" Text="-" FontSize="40" Padding="0" Clicked="Item_Removed"/>
+                                        <Label 
+                                            x:Name="amountLabel"
+                                            Padding="10"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Center"
+                                            Grid.Column="1"
+                                            FontSize="Title"
+                                            FontAttributes="Bold">
+                                            0
+                                        </Label>
+                                            <Button
+                                            Grid.Column="2"
+                                            TextColor="{StaticResource Black}" Text="+" FontSize="40" Padding="0" Clicked="Item_Added"/>
+                                    </Grid>
+                                    <Label Grid.Row="3" Grid.Column="1" FontSize="30" VerticalOptions="Start" Text="{Binding Price}"/>
+                                        <Image
+                                        Grid.Row="0" Grid.RowSpan="10" Grid.Column="0"
+                                        Source="{Binding Picture}"/>
+                                        <Label Grid.Row="3" Grid.Column="1" FontSize="13" VerticalOptions="End" TextColor="{StaticResource Tertiary}" Text="Points"/>
+                                    </Grid>
+                                </Frame>
                             </Grid>
-                        </Frame>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

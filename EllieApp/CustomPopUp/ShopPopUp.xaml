@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mct:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:mct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"      
+           x:Class="EllieApp.CustomPopUp.ShopPopUp"
+           CanBeDismissedByTappingOutsideOfPopup="True">
+    <ScrollView>
+        <VerticalStackLayout WidthRequest="300">
+        <Label
+            HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+            FontSize="Medium">Go to your contact person 
+            to get these redeemed your things
+        </Label>
+        <CollectionView x:Name="collectionView" ItemsLayout="VerticalGrid, 1" BindingContext="{Binding pendingItems}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid RowSpacing="10" ColumnSpacing="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="150"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0"/>
+                        </Grid.ColumnDefinitions>
+                        <Label
+                        x:Name="MessageLabel"
+                        FontSize="20"/>
+                        <Frame CornerRadius="20" BorderColor="Transparent">
+                            <Grid RowDefinitions="auto,*,*" ColumnDefinitions="*,*,auto" Margin="-6,-5,-6,-10">
+                                <Label Grid.Row="0" Grid.Column="1" VerticalOptions="End" FontAttributes="Bold" FontSize="Title" Text="{Binding Name}"/>
+                                <Label Grid.Row="3" Grid.Column="1" FontSize="30" VerticalOptions="Start" Text="{Binding Price}"/>
+                                <Image
+                                    Grid.Row="0" Grid.RowSpan="10" Grid.Column="0"
+                                    Source="{Binding Picture}"/>
+                                <Label Grid.Row="3" Grid.Column="1" FontSize="13" VerticalOptions="End" TextColor="{StaticResource Tertiary}" Text="Points"/>
+                            </Grid>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button x:Name="redeemButton" Clicked="Button_Clicked" Text="Redeem"/>
+        <Label HorizontalOptions="Center" VerticalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" x:Name="itemStatus"></Label>
+        </VerticalStackLayout>
+    </ScrollView>
+</mct:Popup>
