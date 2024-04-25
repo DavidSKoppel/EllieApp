@@ -46,10 +46,10 @@ namespace EllieApp
                 {
                     StopMessageService(1);
                     HttpClient httpClient = new HttpClient();
-                    var content = new StringContent("{\r\n    \"points\": 300\r\n}", null, "application/json");
+                    double userPoints = Convert.ToDouble(Preferences.Get("points", defaultValue: "1337"));
+                    var content = new StringContent("{\r\n    \"points\": "+ userPoints + 20 +"\r\n}", null, "application/json");
                     HttpResponseMessage response =
                     await httpClient.PutAsync("https://totally-helpful-krill.ngrok-free.app/User?id=7", content);
-                    var json = await response.Content.ReadAsStringAsync();
                 }
             }
         }
