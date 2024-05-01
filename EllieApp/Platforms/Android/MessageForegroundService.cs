@@ -38,8 +38,7 @@ namespace EllieApp.Platforms.Android
         public override StartCommandResult OnStartCommand(Intent? intent, StartCommandFlags flags, int startId)
         {
             var jsonAlarm = intent.GetStringExtra("Alarm");
-            thisAlarm = JsonSerializer.Deserialize<Alarm>(jsonAlarm);
-            //thisAlarm =  MainActivity.globalAlarms.FirstOrDefault(a => a.id == idInput);
+            thisAlarm = JsonSerializer.Deserialize<Alarm>(jsonAlarm);//MainActivity.globalAlarms.FirstOrDefault(a => a.id == idInput);
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {

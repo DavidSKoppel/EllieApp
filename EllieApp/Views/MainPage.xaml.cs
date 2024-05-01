@@ -41,9 +41,7 @@ public partial class MainPage : ContentPage
             foreach (var alarm in jsonAlarms)
             {
                 alarms.Add(alarm);
-                MainActivity.globalAlarms.Add(alarm);
             }
-            StartAlarm(jsonAlarms);
         }
 #endif
     }
@@ -51,10 +49,7 @@ public partial class MainPage : ContentPage
     private void ShowAlarmButton_Clicked(object sender, EventArgs e)
     {
 #if ANDROID
-        var button = (Button)sender;
-        var alarm = (Alarm)button.BindingContext;
-        AlarmPopUp popup = new AlarmPopUp(alarm);
-        this.ShowPopup(popup);
+        AndroidServiceManager.StartMyNetworkService();
 #endif
     }
 
@@ -63,45 +58,19 @@ public partial class MainPage : ContentPage
         string result = await DisplayPromptAsync("Log out?", "Password for logging out is required");
         if (result == "Password")
         {
+            AndroidServiceManager.StopMyAlarms();
+            Preferences.Set("id", "");
+            Preferences.Set("firstName", "");
+            Preferences.Set("lastName", "");
+            Preferences.Set("points", "");
+            Preferences.Set("token", "");
             Preferences.Set("isLoggedIn", false);
-            Preferences.Set("username", "api data");
             App.Current.MainPage = new LoginPage();
         }
         else
         {
             await DisplayAlert("Log out failed", "The password was incorrect", "OK");
         }
-    }
-
-    private void StartAlarm(List<Alarm> alarms)
-    {
-#if ANDROID
-        foreach (var alarm in alarms) { 
-            var intent = new Android.Content.Intent(Android.App.Application.Context, typeof(CustomReceiver));
-            var json = JsonSerializer.Serialize(alarm);
-            intent.SetAction("AlarmReceived");
-            intent.PutExtra("Alarm", json);
-            var pendingIntent = PendingIntent.GetBroadcast(Android.App.Application.Context, alarm.id, intent, PendingIntentFlags.Immutable);
-            var alarmManager = (AlarmManager)Android.App.Application.Context.GetSystemService(Context.AlarmService);
-
-            Java.Util.Calendar calendar = new Java.Util.Calendar.Builder().SetCalendarType("iso8601").Build();
-            calendar.TimeInMillis = Java.Lang.JavaSystem.CurrentTimeMillis();
-
-            // Set the alarm to trigger at 12:30 PM
-            calendar.Set(Java.Util.CalendarField.HourOfDay, alarm.activatingTime.Hour);
-            calendar.Set(Java.Util.CalendarField.Minute, alarm.activatingTime.Minute);
-            calendar.Set(Java.Util.CalendarField.Second, alarm.activatingTime.Second);
-            //long interval = alarm.id * 10000;
-            if (calendar.TimeInMillis < Java.Lang.JavaSystem.CurrentTimeMillis())
-            {
-                // If the time has passed, add one day to the calendar to schedule the alarm for tomorrow
-                calendar.Add(Java.Util.CalendarField.DayOfMonth, 1);
-            }
-
-            alarmManager.SetExactAndAllowWhileIdle(AlarmType.RtcWakeup, calendar.TimeInMillis, pendingIntent);
-            //alarmManager.Set(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + interval, pendingIntent);
-        }
-#endif
     }
 
     /*private void StartButton_OnClicked(object sender, EventArgs e)

@@ -27,8 +27,8 @@
             </Grid.ColumnDefinitions>
             <Label x:Name="lastNameLabel" Grid.Row="0" Margin="10" TextColor="{StaticResource Tertiary}">Efternavn</Label>
             <Label x:Name="firstNameLabel" Grid.Row="1" FontSize="Title" TextColor="{StaticResource Tertiary}">For Navn</Label>
-            <Button Grid.Column="1" BorderWidth="1" BorderColor="{StaticResource Tertiary}" CornerRadius="20" Margin="0,10,0,10" Padding="0" TextColor="Black" Text=""/>
-            <Button Grid.Row="1" Grid.Column="1" Clicked="LogOut_Clicked" BorderWidth="1" BorderColor="{StaticResource Tertiary}" CornerRadius="20" Margin="0,10,0,10" Padding="0" TextColor="Black" Text=""/>
+            <Button Grid.Column="1" BorderWidth="1" Clicked="StartServiceButton_Clicked" BorderColor="{StaticResource Tertiary}" CornerRadius="20" Margin="0,10,0,10" Padding="0" TextColor="Black" Text="genindlæs"/>
+            <Button Grid.Row="1" Grid.Column="1" Clicked="LogOut_Clicked" BorderWidth="1" BorderColor="{StaticResource Tertiary}" CornerRadius="20" Margin="0,10,0,10" Padding="0" TextColor="Black" Text="log ud"/>
             <BoxView Grid.Row="1" Grid.ColumnSpan="2" HeightRequest="1" VerticalOptions="End"></BoxView>
         </Grid>
         <Label></Label>

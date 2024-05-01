@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EllieApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,18 @@ namespace EllieApp.Platforms.Android
 
         public static bool IsRunning { get; set; }
 
+        public static void StartMyAlarms(List<Alarm> list)
+        {
+            if (MainActivity == null) return;
+            MainActivity.StartAlarms(list);
+        }
+
+        public static void StopMyAlarms()
+        {
+            if (MainActivity == null) return;
+            MainActivity.StopAlarms();
+        }
+
         public static void StartMyNetworkService()
         {
             if (MainActivity == null) return;
@@ -22,7 +35,6 @@ namespace EllieApp.Platforms.Android
         {
             if (MainActivity == null) return;
             MainActivity.StopNetworkService();
-            IsRunning = false;
         }
 
         public static void StartMyMessageService(string alarm)
@@ -35,7 +47,6 @@ namespace EllieApp.Platforms.Android
         {
             if (MainActivity == null) return;
             MainActivity.StopMessageService();
-            IsRunning = false;
         }
     }
 }
