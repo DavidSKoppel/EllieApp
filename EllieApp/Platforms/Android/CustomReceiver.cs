@@ -15,17 +15,21 @@ namespace EllieApp.Platforms.Android
             if (intent.Action == "AlarmReceived")
             {
                 Toast.MakeText(context, "Alarm Firing", ToastLength.Short).Show();
-                var alarmId = intent.GetIntExtra("Id", -1);
-                AndroidServiceManager.StartMyMessageService(alarmId);
+                var alarm = intent.GetStringExtra("Alarm");
+                AndroidServiceManager.StartMyMessageService(alarm);
                 /*var serviceIntent = new Intent(context,
                 typeof(MessageForegroundService));
 
                 ContextCompat.StartForegroundService(context,
                     serviceIntent);*/
+            }else if (intent.Action == "UPDATE_ALARMS")
+            {
+                AndroidServiceManager.StartMyNetworkService();
             }
             else if (intent.Action == Intent.ActionBootCompleted)
             {
-                Toast.MakeText(context, "Boot completed, event received", ToastLength.Short).Show();
+                Toast.MakeText(context, "Boot completed, getting Alarms", ToastLength.Short).Show();
+                AndroidServiceManager.StartMyNetworkService();
                 /*
                 var serviceIntent = new Intent(context,
                 typeof(MessageForegroundService));

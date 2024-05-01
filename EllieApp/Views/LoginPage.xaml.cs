@@ -1,4 +1,5 @@
 using EllieApp.Models;
+using EllieApp.Platforms.Android;
 using System.Text.Json;
 
 namespace EllieApp.Views;
@@ -37,14 +38,21 @@ public partial class LoginPage : ContentPage
             var quickObject = (Institute)roomPicker.SelectedItem;
             HttpClient httpClient = new HttpClient();
             HttpResponseMessage response = await httpClient.PostAsync("https://totally-helpful-krill.ngrok-free.app/User/AppUserLogin?roomId=" + quickObject.id, null);
-            User user = JsonSerializer.Deserialize<User>(await response.Content.ReadAsStringAsync());
-            Preferences.Set("id", user.Id);
-            Preferences.Set("firstName", user.FirstName);
-            Preferences.Set("lastName", user.LastName);
-            Preferences.Set("points", user.Points.ToString());
-            Preferences.Set("token", user.Token);
-            Preferences.Set("isLoggedIn", true);
-            App.Current.MainPage = new AppShell();
+            if (response.IsSuccessStatusCode)
+            {
+                AndroidServiceManager.StartMyNetworkService();
+                User user = JsonSerializer.Deserialize<User>(await response.Content.ReadAsStringAsync());
+                Preferences.Set("id", user.Id);
+                Preferences.Set("firstName", user.FirstName);
+                Preferences.Set("lastName", user.LastName);
+                Preferences.Set("points", user.Points.ToString());
+                Preferences.Set("token", user.Token);
+                Preferences.Set("isLoggedIn", true);
+                App.Current.MainPage = new AppShell();
+            } else
+            {
+                await DisplayAlert("Log in failed", "Nobody was found", "OK");
+            }
         }
     }
 

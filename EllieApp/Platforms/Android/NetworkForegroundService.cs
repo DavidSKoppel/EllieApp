@@ -3,10 +3,14 @@ using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using AndroidX.Core.App;
+using EllieApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using static EllieApp.Platforms.Android.MessageForegroundService;
 
@@ -15,10 +19,9 @@ namespace EllieApp.Platforms.Android
     [Service]
     public class NetworkForegroundService : Service
     {
-        Timer timer = null;
         int myId = (new object()).GetHashCode();
-        int BadgeNumber = 0;
         private readonly IBinder binder = new LocalBinder();
+        private HttpClient? httpClient;
         public class LocalBinder : Binder
         {
             public MessageForegroundService GetService()
@@ -32,44 +35,54 @@ namespace EllieApp.Platforms.Android
         }
         public override StartCommandResult OnStartCommand(Intent? intent, StartCommandFlags flags, int startId)
         {
-            var input = intent.GetStringExtra("inputExtra");
+            var checkIntent = new Intent(this, typeof(MainActivity));
+            checkIntent.SetAction("UPDATE_ALARMS");
+            var checkIfIntent = PendingIntent.GetBroadcast(this, 180811, checkIntent, PendingIntentFlags.Immutable | PendingIntentFlags.NoCreate);
+            bool isAlarmActive = (checkIfIntent != null);
 
-            var notificationIntent = new Intent(this, typeof(MainActivity));
-            notificationIntent.SetAction("USER_TAPPED_NOTIFIACTION");
-
-            var pendingIntent = PendingIntent.GetActivity(this, 0, notificationIntent,
-                PendingIntentFlags.Immutable);
-
-            var notification = new NotificationCompat.Builder(this,
-                    MainApplication.ChannelId)
-                .SetContentText(input)
-                .SetSmallIcon(Resource.Drawable.splash)
-                .SetContentIntent(pendingIntent);
-
-            StartForeground(myId, notification.Build(), ForegroundService.TypeDataSync);
-
-            // You can stop the service from inside the service by calling StopSelf();
-
-            timer = new Timer(Timer_Elapsed, notification, 0, 600000);
+            if (!isAlarmActive)
+            {
+                RefreshAlarm();
+            }
+            else
+            {
+                StopSelf();
+            }
 
             return StartCommandResult.Sticky;
         }
 
-        private async void Timer_Elapsed(object? state)
+        private async void RefreshAlarm()
         {
-            AndroidServiceManager.IsRunning = true;
+            try
+            {
+                httpClient = new HttpClient();
+                HttpResponseMessage response =
+            await httpClient.GetAsync("https://totally-helpful-krill.ngrok-free.app/UserAlarmRelation/GetAlarmsByUserId/id?id=" + Convert.ToInt32(Preferences.Get("id", defaultValue: 1)));
+                var json = await response.Content.ReadAsStringAsync();
+                var jsonAlarms = JsonSerializer.Deserialize<List<Alarm>>(json);
+                response.EnsureSuccessStatusCode();
+                AndroidServiceManager.StartMyAlarms(jsonAlarms);
 
-            HttpClient httpClient = new HttpClient();
+                var intent = new Intent(this, typeof(CustomReceiver));
+                intent.SetAction("UPDATE_ALARMS");
+                var pendingIntent = PendingIntent.GetBroadcast(this, 180811, intent, PendingIntentFlags.Mutable);
+                var alarmManager = (AlarmManager)this.GetSystemService(Context.AlarmService);
 
-            HttpResponseMessage response = await httpClient.GetAsync("https://dog.ceo/api/breeds/image/random");
-
-            BadgeNumber++;
-            string data = $"Data: {response}";
-            var notification = (NotificationCompat.Builder)state;
-            notification.SetNumber(BadgeNumber);
-            notification.SetContentTitle(data);
-            notification.SetContentText(data);
-            StartForeground(myId, notification.Build());
+                long interval = 43200000; //12 Hours
+                //long interval = 20000;
+                alarmManager.Set(AlarmType.ElapsedRealtimeWakeup, SystemClock.ElapsedRealtime() + interval, pendingIntent);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                //alarmManager.Cancel(pendingIntent);
+                httpClient?.Dispose();
+                StopSelf();
+            }
         }
     }
 }
