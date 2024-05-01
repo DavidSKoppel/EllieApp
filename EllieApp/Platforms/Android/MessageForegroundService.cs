@@ -5,6 +5,7 @@ using Android.Runtime;
 using Android.Content.PM;
 using AndroidX.Core.App;
 using EllieApp.Models;
+using System.Text.Json;
 
 namespace EllieApp.Platforms.Android
 {
@@ -36,14 +37,15 @@ namespace EllieApp.Platforms.Android
 
         public override StartCommandResult OnStartCommand(Intent? intent, StartCommandFlags flags, int startId)
         {
-            var idInput = intent.GetIntExtra("AlarmId", -1);
-            thisAlarm =  MainActivity.globalAlarms.FirstOrDefault(a => a.id == idInput);
+            var jsonAlarm = intent.GetStringExtra("Alarm");
+            thisAlarm = JsonSerializer.Deserialize<Alarm>(jsonAlarm);
+            //thisAlarm =  MainActivity.globalAlarms.FirstOrDefault(a => a.id == idInput);
 
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
 #pragma warning disable CA1416
                 var serviceChannel =
-                    new NotificationChannel(MainApplication.ChannelId + idInput,
+                    new NotificationChannel(MainApplication.ChannelId + thisAlarm.id,
                         "Background Service Channel",
                     NotificationImportance.High);
 
@@ -56,19 +58,19 @@ namespace EllieApp.Platforms.Android
             }
 
             var notificationIntent = new Intent(this, typeof(MainActivity));
-            notificationIntent.PutExtra("Id", idInput);
+            notificationIntent.PutExtra("Id", thisAlarm.id);
             notificationIntent.SetAction("USER_TAPPED_NOTIFICATION");
 
             var pendingIntent = PendingIntent.GetActivity(this, 0, notificationIntent,
                 PendingIntentFlags.Immutable);
 
             var notification = new NotificationCompat.Builder(this,
-                    MainApplication.ChannelId + idInput)
+                    MainApplication.ChannelId + thisAlarm.id)
                 .SetContentText("Message")
                 .SetSmallIcon(Resource.Drawable.splash)
                 .SetContentIntent(pendingIntent);
 
-            StartForeground(idInput, notification.Build(), ForegroundService.TypeSpecialUse);
+            StartForeground(thisAlarm.id, notification.Build(), ForegroundService.TypeSpecialUse);
 
             // You can stop the service from inside the service by calling StopSelf();
 

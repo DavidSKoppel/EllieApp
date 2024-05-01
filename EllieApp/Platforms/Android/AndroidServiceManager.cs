@@ -25,16 +25,16 @@ namespace EllieApp.Platforms.Android
             IsRunning = false;
         }
 
-        public static void StartMyMessageService(int id)
+        public static void StartMyMessageService(string alarm)
         {
             if (MainActivity == null) return;
-            MainActivity.StartMessageService(id);
+            MainActivity.StartMessageService(alarm);
         }
 
-        public static void StopMyMessageService(int id)
+        public static void StopMyMessageService()
         {
             if (MainActivity == null) return;
-            MainActivity.StopMessageService(id);
+            MainActivity.StopMessageService();
             IsRunning = false;
         }
     }

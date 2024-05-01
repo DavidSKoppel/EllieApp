@@ -72,12 +72,15 @@ public partial class PointShopPage : ContentPage
         addedItems.Add(item);
         var cost = Convert.ToInt32(item.Price);
         var points = Convert.ToInt32(pointsLabel.Text);
-        pointsLabel.Text = (points - cost).ToString();
-        if (button.Parent is Grid parentGrid)
+        if(!(points - cost < 0))
         {
-            var amountLabel = parentGrid.FindByName<Label>("amountLabel");
-            var amount = Convert.ToInt32(amountLabel.Text);
-            amountLabel.Text = (amount + 1).ToString();
+            if (button.Parent is Grid parentGrid)
+            {
+                var amountLabel = parentGrid.FindByName<Label>("amountLabel");
+                var amount = Convert.ToInt32(amountLabel.Text);
+                pointsLabel.Text = (points - cost).ToString();
+                amountLabel.Text = (amount + 1).ToString();
+            }
         }
     }
 
@@ -89,12 +92,15 @@ public partial class PointShopPage : ContentPage
             addedItems.Remove(item);
             var cost = Convert.ToInt32(item.Price);
             var points = Convert.ToInt32(pointsLabel.Text);
-            pointsLabel.Text = (points + cost).ToString();
             if(button.Parent is Grid parentGrid)
             {
                 var amountLabel = parentGrid.FindByName<Label>("amountLabel");
                 var amount = Convert.ToInt32(amountLabel.Text);
-                amountLabel.Text = (amount - 1).ToString();
+                if (amount != 0)
+                {
+                    pointsLabel.Text = (points + cost).ToString();
+                    amountLabel.Text = (amount - 1).ToString();
+                }
             }
         }
     }

@@ -7,6 +7,9 @@ using Android.OS;
 using EllieApp.Models;
 using System.Collections.ObjectModel;
 using System.Text.Json;
+using System.Threading;
+using EllieApp.CustomPopUp;
+using CommunityToolkit.Maui.Views;
 
 namespace EllieApp.Views;
 
@@ -45,10 +48,13 @@ public partial class MainPage : ContentPage
 #endif
     }
 
-    private void StartServiceButton_Clicked(object sender, EventArgs e)
+    private void ShowAlarmButton_Clicked(object sender, EventArgs e)
     {
 #if ANDROID
-        AndroidServiceManager.StopMyMessageService(1);
+        var button = (Button)sender;
+        var alarm = (Alarm)button.BindingContext;
+        AlarmPopUp popup = new AlarmPopUp(alarm);
+        this.ShowPopup(popup);
 #endif
     }
 
@@ -67,20 +73,14 @@ public partial class MainPage : ContentPage
         }
     }
 
-    private void Button_Clicked(object sender, EventArgs e)
-    {
-#if ANDROID
-        AndroidServiceManager.StopMyMessageService(1);
-#endif
-    }
-
     private void StartAlarm(List<Alarm> alarms)
     {
 #if ANDROID
         foreach (var alarm in alarms) { 
             var intent = new Android.Content.Intent(Android.App.Application.Context, typeof(CustomReceiver));
+            var json = JsonSerializer.Serialize(alarm);
             intent.SetAction("AlarmReceived");
-            intent.PutExtra("Id", alarm.id);
+            intent.PutExtra("Alarm", json);
             var pendingIntent = PendingIntent.GetBroadcast(Android.App.Application.Context, alarm.id, intent, PendingIntentFlags.Immutable);
             var alarmManager = (AlarmManager)Android.App.Application.Context.GetSystemService(Context.AlarmService);
 
@@ -103,4 +103,28 @@ public partial class MainPage : ContentPage
         }
 #endif
     }
+
+    /*private void StartButton_OnClicked(object sender, EventArgs e)
+    {
+        _startTime = DateTime.Now;
+        _cancellationTokenSource = new CancellationTokenSource();
+        UpdateArc();
+    }
+
+    private async void UpdateArc()
+    {
+        while (!_cancellationTokenSource.IsCancellationRequested)
+        {
+            var elapsedTime = (DateTime.Now - _startTime);
+            int secondsRemaining = (int)(_duration - elapsedTime.TotalMilliseconds) / 1000;
+
+            ProgressButton.Text = $"{secondsRemaining}";
+
+            // More stuff to come ...
+
+            await Task.Delay(500);
+        }
+
+        // Reset the view
+    }*/
 }

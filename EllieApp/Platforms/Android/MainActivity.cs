@@ -2,6 +2,7 @@
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using Android.Widget;
 using EllieApp.Models;
 using EllieApp.Platforms.Android;
 using System.Net.Http.Json;
@@ -12,22 +13,9 @@ namespace EllieApp
     [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleInstance, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
     public class MainActivity : MauiAppCompatActivity
     {
-        User user = new User();
         public static List<Alarm> globalAlarms = new List<Alarm>();
         public MainActivity()
         {
-            /*bool isLoggedIn = Preferences.Get("isLoggedIn", defaultValue: false);
-            if(isLoggedIn)
-            {
-                user = new User()
-                {
-                    Id = Convert.ToInt32(Preferences.Get("id", defaultValue: null)),
-                    FirstName = Preferences.Get("firstName", defaultValue: null),
-                    LastName = Preferences.Get("lastName", defaultValue: null),
-                    Points = Convert.ToInt32(Preferences.Get("points", defaultValue: null)),
-                    Token = Preferences.Get("token", defaultValue: null)
-                };
-            }*/
             AndroidServiceManager.MainActivity = this;
         }
 
@@ -44,12 +32,14 @@ namespace EllieApp
                 var action = intent.Action;
                 if(action == "USER_TAPPED_NOTIFICATION")
                 {
-                    StopMessageService(1);
+                    StopMessageService();
                     HttpClient httpClient = new HttpClient();
                     double userPoints = Convert.ToDouble(Preferences.Get("points", defaultValue: "1337"));
-                    var content = new StringContent("{\r\n    \"points\": "+ userPoints + 20 +"\r\n}", null, "application/json");
+                    userPoints += 20;
+                    var content = new StringContent("{\r\n    \"points\": "+ userPoints +"\r\n}", null, "application/json");
                     HttpResponseMessage response =
                     await httpClient.PutAsync("https://totally-helpful-krill.ngrok-free.app/User?id=7", content);
+                    Toast.MakeText(this, "Alarm Stopped", ToastLength.Short).Show();
                 }
             }
         }
@@ -66,17 +56,17 @@ namespace EllieApp
             StopService(serviceIntent);
         }
 
-        internal void StartMessageService(int id)
+        internal void StartMessageService(string alarm)
         {
             var serviceIntent = new Intent(this, typeof(MessageForegroundService));
-            serviceIntent.PutExtra("AlarmId", id);
+            serviceIntent.PutExtra("Alarm", alarm);
             StartService(serviceIntent);
         }
 
-        internal void StopMessageService(int id)
+        internal void StopMessageService()
         {
             var serviceIntent = new Intent(this, typeof(MessageForegroundService));
-            serviceIntent.PutExtra("AlarmId", id);
+            //serviceIntent.PutExtra("AlarmId", id);
             StopService(serviceIntent);
         }
     }

@@ -15,8 +15,9 @@ namespace EllieApp.Platforms.Android
             if (intent.Action == "AlarmReceived")
             {
                 Toast.MakeText(context, "Alarm Firing", ToastLength.Short).Show();
-                var alarmId = intent.GetIntExtra("Id", -1);
-                AndroidServiceManager.StartMyMessageService(alarmId);
+                var alarm = intent.GetStringExtra("Alarm");
+                //var alarmId = intent.GetIntExtra("Alarm", -1);
+                AndroidServiceManager.StartMyMessageService(alarm);
                 /*var serviceIntent = new Intent(context,
                 typeof(MessageForegroundService));
 

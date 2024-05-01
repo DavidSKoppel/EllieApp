@@ -27,22 +27,22 @@
             </Grid.ColumnDefinitions>
             <Label x:Name="lastNameLabel" Grid.Row="0" Margin="10" TextColor="{StaticResource Tertiary}">Efternavn</Label>
             <Label x:Name="firstNameLabel" Grid.Row="1" FontSize="Title" TextColor="{StaticResource Tertiary}">For Navn</Label>
-            <Button Grid.Column="1" BorderWidth="1" BorderColor="{StaticResource Tertiary}" CornerRadius="20" Margin="0,10,0,10" Padding="0" TextColor="Black" Text="genindlæs"/>
-            <Button Grid.Row="1" Grid.Column="1" Clicked="LogOut_Clicked" BorderWidth="1" BorderColor="{StaticResource Tertiary}" CornerRadius="20" Margin="0,10,0,10" Padding="0" TextColor="Black" Text="log ud"/>
+            <Button Grid.Column="1" BorderWidth="1" BorderColor="{StaticResource Tertiary}" CornerRadius="20" Margin="0,10,0,10" Padding="0" TextColor="Black" Text=""/>
+            <Button Grid.Row="1" Grid.Column="1" Clicked="LogOut_Clicked" BorderWidth="1" BorderColor="{StaticResource Tertiary}" CornerRadius="20" Margin="0,10,0,10" Padding="0" TextColor="Black" Text=""/>
             <BoxView Grid.Row="1" Grid.ColumnSpan="2" HeightRequest="1" VerticalOptions="End"></BoxView>
         </Grid>
         <Label></Label>
-        <CollectionView x:Name="collectionView" ItemsLayout="VerticalGrid, 2" BindingContext="{Binding alarms}">
+        <CollectionView x:Name="collectionView" ItemsLayout="VerticalGrid, 1" BindingContext="{Binding alarms}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid RowSpacing="10" ColumnSpacing="10">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="150"/>
+                            <RowDefinition Height="100"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0"/>
                         </Grid.ColumnDefinitions>
                         <Label
                             x:Name="MessageLabel"
@@ -55,19 +55,23 @@
                                     Radius="10"
                                     Opacity="0.3"/>
                             </Frame.Shadow>
-                            <Grid RowDefinitions="*,auto,*" Margin="-6,-10,-6,-15">
+                            <Grid RowDefinitions="*,auto,20,*" ColumnDefinitions="70,*" Margin="-6,-10,-6,-15">
+                                <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Source="{Binding imageUrl}" HeightRequest="50" Margin="0"/>
                                 <Button
-                                    BackgroundColor="Transparent"
+                                    Grid.ColumnSpan="4"
                                     Grid.RowSpan="4"
+                                    BackgroundColor="Transparent"
                                     TextColor="{StaticResource Black}"
-                                    Clicked="StartServiceButton_Clicked"/>
-                                <Label Grid.Row="0" Text="{Binding name}"/>
-                                <Label Grid.Row="1" FontSize="30" VerticalOptions="Start" Text="{Binding activatingTime, StringFormat='{0:HH:mm}'}"/>
+                                    Clicked="ShowAlarmButton_Clicked"/>
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding name}"/>
+                                <Label Grid.Row="1" Grid.Column="1" FontSize="30" VerticalOptions="Start" FontAttributes="Bold" Text="{Binding activatingTime, StringFormat='{0:HH:mm}'}"/>
                                 <Image
                                     Grid.Row="2"
+                                    Grid.Column="1"
                                     Source="ur.png"/>
-                                <Label Grid.Row="2" VerticalOptions="Center" Text="Everyday"/>
-                                <Label Grid.Row="3" FontSize="9" VerticalOptions="End" TextColor="{StaticResource Tertiary}" Text="Countdown"/>
+                                <Label Grid.Row="2" Grid.Column="1" VerticalOptions="Center" Text="Everyday"/>
+                                <Label Grid.Row="3" Grid.Column="1" FontSize="9" VerticalOptions="End" TextColor="{StaticResource Tertiary}" Text="Countdown"/>
+                                <Label Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="4" FontSize="40" FontAttributes="Bold" HorizontalOptions="End" Text=">"/>
                             </Grid>
                         </Frame>
                     </Grid>
